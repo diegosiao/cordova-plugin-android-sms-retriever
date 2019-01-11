@@ -113,7 +113,7 @@ public class CordovaPluginAndroidSmsRetriever extends CordovaPlugin {
         try {
             
             for(String hash : getAppSignatures(this.cordova.getActivity().getApplicationContext(), callbackContext)) {
-                callbackContext.success("App's Hash: " + hash + " - DO NOT USE THIS UTILITY IN PRODUCTION - FOLLOW THE INSTRUCTIONS HERE: ");
+                callbackContext.success("App's hash: " + hash + " - DO NOT USE THIS UTILITY IN PRODUCTION");
                 return;
             }
 
