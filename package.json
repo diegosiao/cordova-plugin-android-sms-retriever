@@ -1,0 +1,25 @@
+{
+  "name": "cordova-plugin-android-sms-retriever",
+  "version": "1.0.1",
+  "description": "A plugin to use the SMS Retriever Android API to receive text messages without requiring SMS permissions",
+  "cordova": {
+    "id": "cordova-plugin-android-sms-retriever",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegosiao/cordova-plugin-android-sms-retriever.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Diego Morais",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diegosiao/cordova-plugin-android-sms-retriever/issues"
+  },
+  "homepage": "https://github.com/diegosiao/cordova-plugin-android-sms-retriever#readme"
+}

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-android-sms-retriever" version="1.0.1" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>cordova-plugin-android-sms-retriever</name>
+    <js-module name="AndroidSmsRetriever" src="www/cordova-plugin-android-sms-retriever.js">
+        <clobbers target="cordova.plugins.AndroidSmsRetriever" />
+    </js-module>
+    <platform name="android">
+        <preference name="PLAY_SERVICES_VERSION" default="11.0.1"/>
+        <framework src="com.google.android.gms:play-services-auth-api-phone:$PLAY_SERVICES_VERSION" />
+
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="CordovaPluginAndroidSmsRetriever">
+                <param name="android-package" value="org.cordova.plugin.android.sms.retriever.CordovaPluginAndroidSmsRetriever" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/CordovaPluginAndroidSmsRetriever.java" target-dir="src/org/cordova/plugin/android/sms/retriever/cordova-plugin-android-sms-retriever" />
+    </platform>
+</plugin>
