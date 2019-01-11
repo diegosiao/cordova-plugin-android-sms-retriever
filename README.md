@@ -4,7 +4,7 @@ This plugin uses the Android [**SMS Retriever API**](https://developers.google.c
 
 ## Why is that?
 
-On **January/2019** Google started warning developers about critical changes in SMS and CALL LOGS access policy. Android used to allow apps to read or intercept SMS indiscriminately since they had the permissions: SMS_READ and/or CALL_LOG. Than is an **obvious security issue** since several financial operations rely on tokens or OTP (One Time Passwords) sent through SMS to their users. [More info...](https://www.zdnet.com/article/google-restricts-which-android-apps-can-request-call-log-and-sms-permissions/)
+On **January/2019** Google started warning developers about critical changes in SMS and CALL LOGS access policy. Android used to allow apps to read or intercept SMS indiscriminately since they had the permissions: SMS_READ and/or CALL_LOG. That is an **obvious security issue** since several financial operations rely on tokens or OTP (One Time Passwords) sent through SMS to their users. [More info...](https://www.zdnet.com/article/google-restricts-which-android-apps-can-request-call-log-and-sms-permissions/)
 
 Regarding to SMS, Google presents as an alternative the [**SMS Retriever API**](https://developers.google.com/identity/sms-retriever/overview) used by this plugin.
 
