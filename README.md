@@ -68,7 +68,7 @@ The first parameter of the success callback will contain the text message. The e
 
             );
             
-        // Here your code to trigger a request to your server to send the SMS 
+        // Here your code should trigger a request to your server to send the SMS 
     }
     
 **IMPORTANT:** The body of your SMS needs to comply the Android SMS Retriever API requirements described [here](https://developers.google.com/identity/sms-retriever/verify#1_construct_a_verification_message). Basically you need to start with the "<#>" tag and finish with the 11 character code extracted from your app's hash, in the example below **FA+9qCX9VSu**.
