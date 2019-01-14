@@ -13,6 +13,7 @@ import android.util.Base64;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.PluginResult;
 
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
@@ -41,7 +42,7 @@ public class CordovaPluginAndroidSmsRetriever extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
         if (action.equals("onSmsReceived")) {
-            this.onSmsReceived(callbackContext);
+            this.onSmsReceived(callbackContext, (args != null && args.optBoolean(0, false)));
             return true;
         }
 
@@ -54,8 +55,8 @@ public class CordovaPluginAndroidSmsRetriever extends CordovaPlugin {
         return false;
     }
 
-    private void onSmsReceived(CallbackContext callbackContext) {
-        
+    private void onSmsReceived(CallbackContext callbackContext, boolean notifySetupSteps) {
+
         final Context context = this.cordova.getActivity().getApplicationContext();
         SmsRetrieverClient smsRetrieverClient = SmsRetriever.getClient(context);
         smsRetrieverClient.startSmsRetriever();
@@ -72,6 +73,12 @@ public class CordovaPluginAndroidSmsRetriever extends CordovaPlugin {
             @Override
             public void onSuccess(Void aVoid) {
 
+                if (notifySetupSteps) {
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, "SMS_RETRIEVER_SETUP");
+                    pluginResult.setKeepCallback(true); // keeping callback
+                    callbackContext.sendPluginResult(pluginResult);
+                }
+
                 // Registrar broadcast receiver
                 IntentFilter intent = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
                 context.registerReceiver(new BroadcastReceiver() {
@@ -83,14 +90,14 @@ public class CordovaPluginAndroidSmsRetriever extends CordovaPlugin {
 
                             switch (status.getStatusCode()) {
                             case CommonStatusCodes.SUCCESS:
-                                
+
                                 // Get SMS message contents
                                 String message = (String) extras.get(SmsRetriever.EXTRA_SMS_MESSAGE);
                                 callbackContext.success(message);
                                 break;
                             case CommonStatusCodes.TIMEOUT:
-                                
-                                callbackContext.error("Waiting for SMS timed out (5 minutes)");
+
+                                callbackContext.error("SMS_RETRIEVER_TIMEOUT:Waiting for SMS timed out (5 minutes)");
                                 break;
                             }
                         }
@@ -102,22 +109,23 @@ public class CordovaPluginAndroidSmsRetriever extends CordovaPlugin {
         task.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                callbackContext.error("Failed to start retriever: " + e.getMessage());
+                callbackContext.error("SMS_RETRIEVER_SETUP_FAILED:Failed to start retriever. " + e.getMessage());
             }
         });
 
     }
 
     private void getAppHash(CallbackContext callbackContext) {
-        
+
         try {
-            
-            for(String hash : getAppSignatures(this.cordova.getActivity().getApplicationContext(), callbackContext)) {
+
+            for (String hash : getAppSignatures(this.cordova.getActivity().getApplicationContext(), callbackContext)) {
                 callbackContext.success("App's hash: " + hash + " - DO NOT USE THIS UTILITY IN PRODUCTION");
                 return;
             }
 
-            callbackContext.error("The app's hash could not be computed. Please refer to Google documentation for an alternative: https://developers.google.com/identity/sms-retriever/verify#computing_your_apps_hash_string");
+            callbackContext.error(
+                    "The app's hash could not be computed. Please refer to Google documentation for an alternative: https://developers.google.com/identity/sms-retriever/verify#computing_your_apps_hash_string");
         } catch (Exception e) {
 
             callbackContext.error("Something bad happened... :( Exception message: " + e.getMessage());
@@ -167,7 +175,7 @@ public class CordovaPluginAndroidSmsRetriever extends CordovaPlugin {
 
             return base64Hash;
         } catch (NoSuchAlgorithmException e) {
-            
+
             callbackContext.error("hash:NoSuchAlgorithm");
         }
         return null;

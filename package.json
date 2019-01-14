@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-android-sms-retriever",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A plugin to use the SMS Retriever Android API to receive text messages without requiring SMS permissions",
   "cordova": {
     "id": "cordova-plugin-android-sms-retriever",
